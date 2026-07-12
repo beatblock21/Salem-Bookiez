@@ -972,11 +972,7 @@ function AuthScreen({ onLogin }) {
             </button>
           </div>
 
-          {/* NEW: the old admin@pes.local/admin123 hint referenced a
-              localStorage-only account (seedDB()'s fake admin) that was
-              never a real Supabase user — showing it here would just be
-              misleading now that login is real. profiles.role defaults to
-              'bettor' on signup; there's no automatic admin account. */}
+
           {mode === "login" && (
             <div style={{ marginTop: 16, padding: "12px 14px", background: C.bg, borderRadius: 8, fontSize: 12, color: C.muted }}>
               <strong style={{ color: C.yellow }}>Admin access:</strong> register normally, then set{" "}
