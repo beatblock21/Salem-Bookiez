@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // SUPABASE CLIENT
 // The publishable/anon key is SAFE to expose client-side — it's designed to
 // be public (this is not the service role key, not the DB password).
@@ -17,9 +17,9 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // DB & PERSISTENCE LAYER
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const DB_KEY = "pes_bookie_db";
 
 const getDB = () => {
@@ -86,26 +86,26 @@ const seedDB = () => {
 };
 seedDB();
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // NEW: MAX STAKE CONSTANT — single place to change the per-bet maximum.
 // BetslipBasket checks against this before confirming a bet, mainly to guard
 // against an accidental fat-finger stake (e.g. an extra zero typed in).
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const MAX_STAKE = 10000;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // NEW: MIN DEPOSIT CONSTANT — smallest deposit request a bettor can submit.
 // Set to KES 10, matching M-Pesa's practical minimum for a real transaction.
 // BettorWallet checks against this before a deposit request is created, so a
 // request for an amount that couldn't correspond to a real M-Pesa transfer
 // never reaches the admin's approval queue. Withdrawal has no separate
 // minimum — it's already bounded by the bettor's actual wallet balance.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const MIN_DEPOSIT = 10;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // DESIGN TOKENS
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const C = {
   bg:          "#0a0f1e",
   surface:     "#111827",
@@ -272,9 +272,9 @@ const styles = {
   },
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // UTILITIES
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const fmt    = (n) => `KES ${Number(n).toLocaleString("en-KE", { minimumFractionDigits: 2 })}`;
 const ts     = (t) => new Date(t).toLocaleString("en-KE", { dateStyle: "medium", timeStyle: "short" });
 const fmtOdds = (o) => Number(o).toFixed(2);
@@ -383,11 +383,11 @@ const STATUS = {
 
 const MODE_LABELS = { ml: "Master League", bal: "BAL" };
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // NEW: tracks live viewport width via a resize listener. BetslipBasket uses
 // this to switch between the desktop right-side panel and a full-width
 // mobile bottom sheet at a 640px breakpoint.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 function useWindowWidth() {
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   useEffect(() => {
@@ -398,7 +398,7 @@ function useWindowWidth() {
   return width;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // ODDS ENGINE
 // FIX: The original file declared two separate `suggestOdds` functions — one
 // that accepted (homeRating, awayRating, homeForm, awayForm) at the top and a
@@ -421,7 +421,7 @@ function useWindowWidth() {
 // this guarantees the realized overround always lands exactly on the target
 // instead of drifting unpredictably the way the old per-outcome
 // `margin / probability` approach did.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 
 // Small local Poisson helper — used by Total Goals and Correct Score, which
 // both need P(exactly k goals | expected rate lambda).
@@ -584,7 +584,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     margin
   );
 
-  // ── BOTH TEAMS TO SCORE ──────────────────────────────────────────────────
+  // ── BOTH TEAMS TO SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n──────
   // NEW (CHANGE 003): blended 50/50 with real btts_rate when both teams have
   // profile data — previously this was derived purely from xGH/xGA with no
   // grounding in how often it actually happens for these teams.
@@ -629,7 +629,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     "3.5": totalGoalsAtLine(3.5),
   };
 
-  // ── ASIAN HANDICAP ───────────────────────────────────────────────────────
+  // ── ASIAN HANDICAP 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n───────────
   // NEW MARKET: uses the full Poisson joint distribution rather than the
   // simplified 3-bucket 1X2 weight formula, since handicap requires
   // evaluating every possible scoreline against a shifted margin (not just
@@ -664,7 +664,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     alt2: handicapAtLine(mainHandicapLine + 1), // shifted toward the home side
   };
 
-  // ── HALF-TIME / FULL-TIME ────────────────────────────────────────────────
+  // ── HALF-TIME / FULL-TIME 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────
   // NEW MARKET: split match xG into a first-half share (44%, since the first
   // half of football typically sees fewer goals than the second in real
   // data) and a second-half share, compute independent half-outcome
@@ -695,7 +695,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const htFt = applyMargin(htFtCombos, M.ht_ft); // long-tail market — heavier margin
 
-  // ── CORRECT SCORE ────────────────────────────────────────────────────────
+  // ── CORRECT SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────────
   // FIX: replaced the old heuristic (`5.0 + distance-from-xG * 4.5`, an
   // arbitrary formula with no real probabilistic basis) with an actual
   // Poisson joint distribution over home/away goals — this is the standard
@@ -709,12 +709,12 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const correctScores = applyMargin(scoreFair, M.correct_score, 2.5, 150); // long-tail market — heavy margin, 2.50 odds floor
 
-  // ── DYNAMIC CORNERS LINE ─────────────────────────────────────────────────
+  // ── DYNAMIC CORNERS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const cornerBaseline = +Math.max(7.5, (hMid + aMid + hAtt + aAtt) / 40).toFixed(1);
   const corners = { line: cornerBaseline, over: 1.85, under: 1.85 };
 
-  // ── DYNAMIC CARDS LINE ────────────────────────────────────────────────────
+  // ── DYNAMIC CARDS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const defensiveDeficit = (hAtt - hDef) + (aAtt - aDef);
   const cardLine = defensiveDeficit > 15 ? 4.5 : defensiveDeficit > 5 ? 3.5 : 2.5;
@@ -758,13 +758,13 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   return { mainLine, btts, corners, cards, correctScores, totalGoals, totalGoalsLines, handicap, htFt, anytimeScorer, anytimeAssist };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // AUTH CONTEXT
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const AuthCtx  = createContext(null);
 const useAuth  = () => useContext(AuthCtx); // eslint-disable-line — kept for future use
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // AUTH SCREEN
 // ─────────────────────────────────────────────────────────────────────────────
 function AuthScreen({ onLogin }) {
@@ -971,8 +971,7 @@ function AuthScreen({ onLogin }) {
               {loading ? "…" : mode === "login" ? "Sign In" : "Create Account"}
             </button>
           </div>
-
-
+ 
           {mode === "login" && (
             <div style={{ marginTop: 16, padding: "12px 14px", background: C.bg, borderRadius: 8, fontSize: 12, color: C.muted }}>
               <strong style={{ color: C.yellow }}>Admin access:</strong> register normally, then set{" "}
@@ -1148,28 +1147,57 @@ function Navbar({ user, onLogout, tab, setTab }) {
   const bettorTabs = ["Match Board", "My Bets", "Wallet Dashboard", "Settings"];
   const tabs = user.role === "admin" ? adminTabs : bettorTabs;
 
+  // NEW: mobile nav fix — tabs previously used flexWrap inside a fixed-height
+  // (56px) bar, so on a narrow phone screen they wrapped onto extra lines
+  // and got clipped/stacked instead of laying out cleanly. Below 640px this
+  // switches the tab row to horizontal scroll instead of wrapping — same
+  // isMobile breakpoint pattern already used by BetslipBasket.
+  const isMobile = useWindowWidth() < 640;
+
   return (
-    <nav style={styles.nav}>
-      <div style={styles.logo}>⚽ <span>SALEMBOOKIES</span></div>
-      <div style={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-      
+    <nav style={{ ...styles.nav,
+      height:        isMobile ? "auto" : styles.nav.height,
+      flexDirection: isMobile ? "column" : "row",
+      alignItems:    isMobile ? "stretch" : "center",
+      padding:       isMobile ? "10px 16px" : styles.nav.padding,
+      gap:           isMobile ? 8 : 0 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={styles.logo}>⚽ <span>SALEMBOOKIES</span></div>
+        {/* On mobile, the bell/badge/logout move up next to the logo so the
+            row below is dedicated entirely to the scrollable tab list. */}
+        {isMobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <NotificationBell user={user} />
+            <span style={styles.badge(user.role === "admin" ? C.yellow : C.accent)}>{user.role}</span>
+            <button style={styles.btn("ghost")} onClick={onLogout}>Out</button>
+          </div>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 2,
+        flexWrap:  isMobile ? "nowrap" : "wrap",
+        overflowX: isMobile ? "auto"   : "visible",
+        WebkitOverflowScrolling: "touch" }}>
         {tabs.map(t => (
           <button key={t} onClick={() => setTab(t)}
             style={{ background: tab === t ? C.accent + "18" : "transparent",
               color:  tab === t ? C.accent : C.muted,
               border: "none", borderRadius: 6, padding: "6px 11px",
-              fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+              fontWeight: 600, fontSize: 13, cursor: "pointer",
+              whiteSpace: "nowrap", flexShrink: 0 }}>
             {t}
           </button>
         ))}
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        {/* NEW (CHANGE 010): notification bell, sits between the tab list
-            and the role badge/logout — visible for both roles. */}
-        <NotificationBell user={user} />
-        <span style={styles.badge(user.role === "admin" ? C.yellow : C.accent)}>{user.role}</span>
-        <button style={styles.btn("ghost")} onClick={onLogout}>Out</button>
-      </div>
+      {/* NEW (CHANGE 010): notification bell, sits between the tab list
+          and the role badge/logout — visible for both roles. Desktop only
+          here now; on mobile this same block renders up next to the logo. */}
+      {!isMobile && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <NotificationBell user={user} />
+          <span style={styles.badge(user.role === "admin" ? C.yellow : C.accent)}>{user.role}</span>
+          <button style={styles.btn("ghost")} onClick={onLogout}>Out</button>
+        </div>
+      )}
     </nav>
   );
 }
