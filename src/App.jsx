@@ -387,7 +387,7 @@ const MODE_LABELS = { ml: "Master League", bal: "BAL" };
 // NEW: tracks live viewport width via a resize listener. BetslipBasket uses
 // this to switch between the desktop right-side panel and a full-width
 // mobile bottom sheet at a 640px breakpoint.
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 function useWindowWidth() {
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   useEffect(() => {
@@ -398,7 +398,7 @@ function useWindowWidth() {
   return width;
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // ODDS ENGINE
 // FIX: The original file declared two separate `suggestOdds` functions — one
 // that accepted (homeRating, awayRating, homeForm, awayForm) at the top and a
@@ -421,7 +421,7 @@ function useWindowWidth() {
 // this guarantees the realized overround always lands exactly on the target
 // instead of drifting unpredictably the way the old per-outcome
 // `margin / probability` approach did.
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Small local Poisson helper — used by Total Goals and Correct Score, which
 // both need P(exactly k goals | expected rate lambda).
@@ -584,7 +584,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     margin
   );
 
-  // ── BOTH TEAMS TO SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n──────
+  // ── BOTH TEAMS TO SCORE ──────────────────────────────────────────────────
   // NEW (CHANGE 003): blended 50/50 with real btts_rate when both teams have
   // profile data — previously this was derived purely from xGH/xGA with no
   // grounding in how often it actually happens for these teams.
@@ -629,7 +629,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     "3.5": totalGoalsAtLine(3.5),
   };
 
-  // ── ASIAN HANDICAP 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n───────────
+  // ── ASIAN HANDICAP ───────────────────────────────────────────────────────
   // NEW MARKET: uses the full Poisson joint distribution rather than the
   // simplified 3-bucket 1X2 weight formula, since handicap requires
   // evaluating every possible scoreline against a shifted margin (not just
@@ -664,7 +664,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     alt2: handicapAtLine(mainHandicapLine + 1), // shifted toward the home side
   };
 
-  // ── HALF-TIME / FULL-TIME 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────
+  // ── HALF-TIME / FULL-TIME ────────────────────────────────────────────────
   // NEW MARKET: split match xG into a first-half share (44%, since the first
   // half of football typically sees fewer goals than the second in real
   // data) and a second-half share, compute independent half-outcome
@@ -695,7 +695,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const htFt = applyMargin(htFtCombos, M.ht_ft); // long-tail market — heavier margin
 
-  // ── CORRECT SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────────
+  // ── CORRECT SCORE ────────────────────────────────────────────────────────
   // FIX: replaced the old heuristic (`5.0 + distance-from-xG * 4.5`, an
   // arbitrary formula with no real probabilistic basis) with an actual
   // Poisson joint distribution over home/away goals — this is the standard
@@ -709,12 +709,12 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const correctScores = applyMargin(scoreFair, M.correct_score, 2.5, 150); // long-tail market — heavy margin, 2.50 odds floor
 
-  // ── DYNAMIC CORNERS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────
+  // ── DYNAMIC CORNERS LINE ─────────────────────────────────────────────────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const cornerBaseline = +Math.max(7.5, (hMid + aMid + hAtt + aAtt) / 40).toFixed(1);
   const corners = { line: cornerBaseline, over: 1.85, under: 1.85 };
 
-  // ── DYNAMIC CARDS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────
+  // ── DYNAMIC CARDS LINE ────────────────────────────────────────────────────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const defensiveDeficit = (hAtt - hDef) + (aAtt - aDef);
   const cardLine = defensiveDeficit > 15 ? 4.5 : defensiveDeficit > 5 ? 3.5 : 2.5;
@@ -758,13 +758,13 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   return { mainLine, btts, corners, cards, correctScores, totalGoals, totalGoalsLines, handicap, htFt, anytimeScorer, anytimeAssist };
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // AUTH CONTEXT
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 const AuthCtx  = createContext(null);
 const useAuth  = () => useContext(AuthCtx); // eslint-disable-line — kept for future use
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // AUTH SCREEN
 // ─────────────────────────────────────────────────────────────────────────────
 function AuthScreen({ onLogin }) {
@@ -971,13 +971,7 @@ function AuthScreen({ onLogin }) {
               {loading ? "…" : mode === "login" ? "Sign In" : "Create Account"}
             </button>
           </div>
- 
-          {mode === "login" && (
-            <div style={{ marginTop: 16, padding: "12px 14px", background: C.bg, borderRadius: 8, fontSize: 12, color: C.muted }}>
-              <strong style={{ color: C.yellow }}>Admin access:</strong> register normally, then set{" "}
-              <code style={{ color: C.text }}>role = 'admin'</code> for that account directly in Supabase.
-            </div>
-          )}
+
         </div>
       </div>
     </div>
@@ -1014,8 +1008,17 @@ function NotificationBell({ user }) {
   const [items, setItems] = useState([]);
   const [open,  setOpen]  = useState(false);
   const dropdownRef = useRef(null);
+  // NEW: the dropdown used to be a fixed 340px panel anchored via `right: 0`
+  // relative to the bell's own small wrapper. On desktop that wrapper sits
+  // near the true right edge of the screen so it's fine — but on mobile the
+  // bell now sits to the LEFT of the badge/Out button in the nav's top row,
+  // so anchoring a 340px panel there pushed most of it off-screen to the
+  // left. Below 640px, switch to fixed positioning pinned to the viewport
+  // edges instead of the bell's position, so it can never overflow.
+  const isMobile = useWindowWidth() < 640;
 
   const reload = useCallback(async () => {
+
     try {
       const { data, error } = await supabase
         .from('notifications')
@@ -1103,9 +1106,15 @@ function NotificationBell({ user }) {
       </button>
 
       {open && (
-        <div style={{ position: "absolute", right: 0, top: "calc(100% + 8px)", width: 340, maxHeight: 420,
+        <div style={ isMobile ? {
+          position: "fixed", left: 12, right: 12, top: 100, maxHeight: "60vh",
           background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10,
-          boxShadow: C.cardShadowLg, zIndex: 2000, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+          boxShadow: C.cardShadowLg, zIndex: 2000, overflow: "hidden", display: "flex", flexDirection: "column"
+        } : {
+          position: "absolute", right: 0, top: "calc(100% + 8px)", width: 340, maxHeight: 420,
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10,
+          boxShadow: C.cardShadowLg, zIndex: 2000, overflow: "hidden", display: "flex", flexDirection: "column"
+        }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
             padding: "10px 14px", borderBottom: `1px solid ${C.border}` }}>
             <strong style={{ fontSize: 13 }}>Notifications</strong>
