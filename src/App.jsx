@@ -147,6 +147,10 @@ const C = {
 const styles = {
   app: {
     minHeight: "100vh",
+    // MOBILE-FIX-2: safety net alongside the root-cause fix in renderMarketBtn —
+    // clips instead of horizontally scrolling if anything else ever overflows
+    // on a narrow viewport. Doesn't affect desktop layout at all.
+    overflowX: "hidden",
     // UI POLISH: subtle radial gradient so the background has depth — top of
     // the page is fractionally lighter than the edges, giving a lit-from-above
     // feel without changing the dark navy color scheme.
@@ -387,7 +391,7 @@ const MODE_LABELS = { ml: "Master League", bal: "BAL" };
 // NEW: tracks live viewport width via a resize listener. BetslipBasket uses
 // this to switch between the desktop right-side panel and a full-width
 // mobile bottom sheet at a 640px breakpoint.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 function useWindowWidth() {
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   useEffect(() => {
@@ -398,7 +402,7 @@ function useWindowWidth() {
   return width;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // ODDS ENGINE
 // FIX: The original file declared two separate `suggestOdds` functions — one
 // that accepted (homeRating, awayRating, homeForm, awayForm) at the top and a
@@ -421,7 +425,7 @@ function useWindowWidth() {
 // this guarantees the realized overround always lands exactly on the target
 // instead of drifting unpredictably the way the old per-outcome
 // `margin / probability` approach did.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 
 // Small local Poisson helper — used by Total Goals and Correct Score, which
 // both need P(exactly k goals | expected rate lambda).
@@ -584,7 +588,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     margin
   );
 
-  // ── BOTH TEAMS TO SCORE ──────────────────────────────────────────────────
+  // ── BOTH TEAMS TO SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n──────
   // NEW (CHANGE 003): blended 50/50 with real btts_rate when both teams have
   // profile data — previously this was derived purely from xGH/xGA with no
   // grounding in how often it actually happens for these teams.
@@ -629,7 +633,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     "3.5": totalGoalsAtLine(3.5),
   };
 
-  // ── ASIAN HANDICAP ───────────────────────────────────────────────────────
+  // ── ASIAN HANDICAP 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n───────────
   // NEW MARKET: uses the full Poisson joint distribution rather than the
   // simplified 3-bucket 1X2 weight formula, since handicap requires
   // evaluating every possible scoreline against a shifted margin (not just
@@ -664,7 +668,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
     alt2: handicapAtLine(mainHandicapLine + 1), // shifted toward the home side
   };
 
-  // ── HALF-TIME / FULL-TIME ────────────────────────────────────────────────
+  // ── HALF-TIME / FULL-TIME 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────
   // NEW MARKET: split match xG into a first-half share (44%, since the first
   // half of football typically sees fewer goals than the second in real
   // data) and a second-half share, compute independent half-outcome
@@ -695,7 +699,7 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const htFt = applyMargin(htFtCombos, M.ht_ft); // long-tail market — heavier margin
 
-  // ── CORRECT SCORE ────────────────────────────────────────────────────────
+  // ── CORRECT SCORE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────────
   // FIX: replaced the old heuristic (`5.0 + distance-from-xG * 4.5`, an
   // arbitrary formula with no real probabilistic basis) with an actual
   // Poisson joint distribution over home/away goals — this is the standard
@@ -709,12 +713,12 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   });
   const correctScores = applyMargin(scoreFair, M.correct_score, 2.5, 150); // long-tail market — heavy margin, 2.50 odds floor
 
-  // ── DYNAMIC CORNERS LINE ─────────────────────────────────────────────────
+  // ── DYNAMIC CORNERS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const cornerBaseline = +Math.max(7.5, (hMid + aMid + hAtt + aAtt) / 40).toFixed(1);
   const corners = { line: cornerBaseline, over: 1.85, under: 1.85 };
 
-  // ── DYNAMIC CARDS LINE ────────────────────────────────────────────────────
+  // ── DYNAMIC CARDS LINE 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n────────
   // unchanged: not probability-derived, kept as a flat bookmaker-style line
   const defensiveDeficit = (hAtt - hDef) + (aAtt - aDef);
   const cardLine = defensiveDeficit > 15 ? 4.5 : defensiveDeficit > 5 ? 3.5 : 2.5;
@@ -758,15 +762,15 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   return { mainLine, btts, corners, cards, correctScores, totalGoals, totalGoalsLines, handicap, htFt, anytimeScorer, anytimeAssist };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // AUTH CONTEXT
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const AuthCtx  = createContext(null);
 const useAuth  = () => useContext(AuthCtx); // eslint-disable-line — kept for future use
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // AUTH SCREEN
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 function AuthScreen({ onLogin }) {
   const [mode,     setMode]     = useState("login");
   const [form,     setForm]     = useState({ name: "", email: "", password: "", confirm: "" });
@@ -978,16 +982,16 @@ function AuthScreen({ onLogin }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // NAVBAR
-// ─────────────────────────────────────────────────────────────────────────────
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // NOTIFICATION BELL
 // NEW (CHANGE 010): frontend for the notifications system (schema: CHANGE
 // 008/009). Realtime-driven, not polled — subscribes to postgres_changes
 // on the notifications table filtered to this user's own rows, same
 // pattern the rest of the schema already uses for profiles/matches.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 const NOTIFICATION_ICON = {
   bet_won: "🎉", bet_lost: "📉", bet_voided: "↩️", bet_cashedout: "💰",
   deposit_approved: "✅", deposit_rejected: "❌",
@@ -1211,9 +1215,9 @@ function Navbar({ user, onLogout, tab, setTab }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // STAT CARD
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 function StatCard({ label, value, sub, accent }) {
   return (
     // UI POLISH: left accent border strip so each stat card has an at-a-glance
@@ -1230,13 +1234,13 @@ function StatCard({ label, value, sub, accent }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // MATCH CARD
 // FIX: BetslipBasket was reading `match.odds[item.outcome]` expecting a flat
 // { home, draw, away } shape. With the engine now returning mainLine instead of
 // match, createMatch spreads `mainLine` plus the full tree onto match.odds so
 // the flat keys are still accessible via `match.odds.home` etc.
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 function MatchCard({ match, actions, activeSlipKeys, onToggleSlipSelection }) {
   const st = STATUS[match.status] || STATUS.upcoming;
 
@@ -1321,7 +1325,7 @@ function MatchCard({ match, actions, activeSlipKeys, onToggleSlipSelection }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
 // ADMIN DASHBOARD
 // ─────────────────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3436,6 +3440,10 @@ function BettorBoard({ user, onAddSelection, activeSlipKeys }) {
       <div key={outcomeKey}
         onClick={() => onAddSelection && onAddSelection(match, outcomeKey)}
         style={{ background: C.bg, borderRadius: 8, padding: "10px 8px", textAlign: "center", flex: 1,
+          minWidth: 0, // MOBILE-FIX-1: flex items default to min-width:auto, which for a
+          // whiteSpace:nowrap child equals its full unwrapped text width — without this,
+          // a long team name (e.g. "2 — NEWCASTLE UNITED FC") forces this cell, the row,
+          // and the whole page wider than the viewport on mobile instead of truncating.
           cursor: "pointer",
           border:     isSelected ? `2px solid ${buttonColor}` : `1px solid ${C.border}`,
           boxShadow:  isSelected ? `${buttonColor}22 0px 0px 8px` : "none",
@@ -4242,6 +4250,14 @@ function BettorMyBets({ user, onCashOut }) {
 // BETTOR WALLET
 // ─────────────────────────────────────────────────────────────────────────────
 function BettorWallet({ user }) {
+  // MOBILE-FIX-3: reuses the same useWindowWidth hook BetslipBasket already
+  // uses for its desktop-panel/mobile-sheet split — this component's two-
+  // column "New Request" / "Statement" grid was fixed at 1fr 1.2fr with no
+  // mobile fallback, squeezing both cards (with their fixed-padding inputs)
+  // into half a narrow phone screen each, which is what was reported as the
+  // cards "messing each other up" on mobile.
+  const windowWidth = useWindowWidth();
+  const isMobile    = windowWidth < 640;
   // MIGRATION 9b (completion): these four were referenced throughout this
   // component (reload()'s setHistory, handleCreateRequest's form/setErr/
   // setMsg, and the Statement/New Request JSX below) but never declared —
@@ -4357,7 +4373,7 @@ function BettorWallet({ user }) {
 
   return (
     <div style={styles.page}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h2 style={{ margin: 0, fontWeight: 800, fontSize: 22 }}>My Wallet</h2>
           <p style={{ color: C.muted, margin: "4px 0 0", fontSize: 13 }}>Submit deposit or withdrawal references for admin approval.</p>
@@ -4368,7 +4384,7 @@ function BettorWallet({ user }) {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.2fr", gap: 24 }}>
         {/* Request form */}
         <div style={styles.card}>
           <h3 style={{ margin: "0 0 16px", fontWeight: 700 }}>New Request</h3>
