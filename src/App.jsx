@@ -127,7 +127,11 @@ const C = {
   borderHover: "#2a3b5c",
   // Background gradient: very subtle, lightens slightly at the top so the
   // page feels lit rather than just black.
-  bgGradient:   "radial-gradient(ellipse 120% 60% at 50% 0%, #0f1628 0%, #0a0f1e 70%)",
+  // VISUAL-1: layered a soft accent-red glow bleeding from the top edge into
+  // the existing navy radial — same C.accent used everywhere else (logo,
+  // buttons, badges), just extended into the page background itself so the
+  // accent color isn't confined to isolated UI elements.
+  bgGradient:   "radial-gradient(ellipse 140% 55% at 50% -10%, rgba(200,49,63,0.14) 0%, rgba(200,49,63,0) 45%), radial-gradient(ellipse 120% 60% at 50% 0%, #0f1628 0%, #0a0f1e 70%)",
   // Card gradient: adds a slight top-catch so stacked cards have the illusion
   // of a light source above rather than being flat fills.
   cardGradient: "linear-gradient(160deg, #1e2a42 0%, #161e34 100%)",
@@ -762,15 +766,15 @@ function suggestOdds(homeStats, awayStats, roster = { home: [], away: [] }, home
   return { mainLine, btts, corners, cards, correctScores, totalGoals, totalGoalsLines, handicap, htFt, anytimeScorer, anytimeAssist };
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // AUTH CONTEXT
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 const AuthCtx  = createContext(null);
 const useAuth  = () => useContext(AuthCtx); // eslint-disable-line — kept for future use
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // AUTH SCREEN
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 function AuthScreen({ onLogin }) {
   const [mode,     setMode]     = useState("login");
   const [form,     setForm]     = useState({ name: "", email: "", password: "", confirm: "" });
@@ -982,16 +986,16 @@ function AuthScreen({ onLogin }) {
   );
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // NAVBAR
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // NOTIFICATION BELL
 // NEW (CHANGE 010): frontend for the notifications system (schema: CHANGE
 // 008/009). Realtime-driven, not polled — subscribes to postgres_changes
 // on the notifications table filtered to this user's own rows, same
 // pattern the rest of the schema already uses for profiles/matches.
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 const NOTIFICATION_ICON = {
   bet_won: "🎉", bet_lost: "📉", bet_voided: "↩️", bet_cashedout: "💰",
   deposit_approved: "✅", deposit_rejected: "❌",
@@ -1215,9 +1219,9 @@ function Navbar({ user, onLogout, tab, setTab }) {
   );
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // STAT CARD
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub, accent }) {
   return (
     // UI POLISH: left accent border strip so each stat card has an at-a-glance
@@ -1234,13 +1238,13 @@ function StatCard({ label, value, sub, accent }) {
   );
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // MATCH CARD
 // FIX: BetslipBasket was reading `match.odds[item.outcome]` expecting a flat
 // { home, draw, away } shape. With the engine now returning mainLine instead of
 // match, createMatch spreads `mainLine` plus the full tree onto match.odds so
 // the flat keys are still accessible via `match.odds.home` etc.
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 function MatchCard({ match, actions, activeSlipKeys, onToggleSlipSelection }) {
   const st = STATUS[match.status] || STATUS.upcoming;
 
@@ -1325,7 +1329,7 @@ function MatchCard({ match, actions, activeSlipKeys, onToggleSlipSelection }) {
   );
 }
 
-// 8387rcPNz8SRX6pYXgdxCZg3VMLFwtdJB3Z9LeX8Ge2n─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // ADMIN DASHBOARD
 // ─────────────────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
@@ -5160,6 +5164,15 @@ export default function App() {
             interfering with anything outside the app root.
             Changes: input focus ring, button hover lift, dark scrollbars. */}
         <style>{`
+          /* VISUAL-2: html/body were never styled, so their default white
+             background showed through on mobile overscroll/bounce (and any
+             sub-pixel gap around the app div) — this is the actual cause of
+             the "site feels like cardboard on white" report. The inner app
+             div's dark gradient only covers its own box, not the page itself. */
+          html, body {
+            background: #0a0f1e;
+            margin: 0;
+          }
           input:focus-visible, textarea:focus-visible {
             border-color: #c8313f !important;
             box-shadow: 0 0 0 2px rgba(200,49,63,0.2) !important;
